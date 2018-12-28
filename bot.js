@@ -9,8 +9,8 @@ client.on('ready', () => {
 
 
 client.on('message', msg => {
-  if (msg.content === 'ping') {
-    msg.reply('Pong!');
+  if (msg.content === 'السلام عليكك') {
+    msg.reply('عليكم سلام :heart:');
   }
 });
 
@@ -29,7 +29,7 @@ $bc | لرسالة رسالة لجميع الي في سيرفر
 $mute @user | لعطاء شخص ميوت كتابي
 $unmute @user | لفك ميوت عن شخص 
 لازم رتبة باسم muted
-$dc | لحذف جميع رومات سيرفر
+$bc | لحذف جميع رومات سيرفر
 $dr | لحذف جميع رتب سيرفر
 $ban @user | لحضر شخص من سيرفر
 $kick @user | اطرد شخص من سيرفر
