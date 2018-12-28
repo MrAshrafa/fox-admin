@@ -380,30 +380,51 @@ var prefix = "$";
     }
        
 });
-client.on('message', message => {
-    if (message.content.startsWith("$uptime")) {
-        if (message.author.bot) return
-    message.channel.send({
-        embed: new Discord.RichEmbed()
-            .setColor('RANDOM')
-            .addField('**:clock1: Uptime **', timeCon(process.uptime()), true)
-            .setFooter('For Fox Team')
-    })
-}
-});
+client.on("message", async message => {
+if(message.channel.type === "dm") return;
+ if(message.content === (prefix + "BotTime")) { /// حط اي كلمة تبيها
+ if (!message.channel.guild) return message.reply('**هذا الامر للسيرفرات فقط**');
+    let uptime = client.uptime;
 
+    let days = 0;
+    let hours = 0;
+    let minutes = 0;
+    let seconds = 0;
+    let notCompleted = true;
 
-function timeCon(time) {
-    let days = Math.floor(time % 31536000 / 86400)
-    let hours = Math.floor(time % 31536000 % 86400 / 3600)
-    let minutes = Math.floor(time % 31536000 % 86400 % 3600 / 60)
-    let seconds = Math.round(time % 31536000 % 86400 % 3600 % 60)
-    days = days > 9 ? days : '0' + days
-    hours = hours > 9 ? hours : '0' + hours
-    minutes = minutes > 9 ? minutes : '0' + minutes
-    seconds = seconds > 9 ? seconds : '0' + seconds
-    return `${days > 0 ? `${days}:` : ''}${(hours || days) > 0 ? `${hours}:` : ''}${minutes}:${seconds}`
+    while (notCompleted) {
+
+        if (uptime >= 8.64e+7) { ///لا تعدل اي شي 
+
+            days++;
+            uptime -= 8.64e+7;
+
+        } else if (uptime >= 3.6e+6) {
+
+            hours++;
+            uptime -= 3.6e+6;
+
+        } else if (uptime >= 60000) {
+
+            minutes++;
+            uptime -= 60000;
+
+        } else if (uptime >= 1000) {
+            seconds++;
+            uptime -= 1000;
+
+        }
+
+        if (uptime < 1000)  notCompleted = false;
+
+    }
+
+    message.channel.send("`" + `${days} days, ${hours} hrs, ${minutes} min , ${seconds} sec` + "`");
+
+///FoxBot
 }
+ });
+ 
 client.on('message' , message => {
   if(message.author.bot) return;
   if(message.content.startsWith(prefix + "ping")) {
