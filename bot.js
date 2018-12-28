@@ -26,10 +26,6 @@ client.on("message", message => {
 $clear1 | لمسح شات برقم
 $clear2 | لمسح شات بدون رقم
 $bc | لرسالة رسالة لجميع الي في سيرفر
-$role @user rank | لعطاء رتبة لشخص معين
-$roleremove @user rank | لحذف رتبة من شخص
-$role bots rank | لعطاء كل بوتات سيرفر رتبة
-$role all rank |  لعكاء لجميع رتب
 $mute @user | لعطاء شخص ميوت كتابي
 $unmute @user | لفك ميوت عن شخص 
 لازم رتبة باسم muted
@@ -41,6 +37,7 @@ $mutechannel | لقفال شات عن كتابة
 $unmutechannel | لفتح شات
 $cv room-name | لنشاء روم صوتي
 $ct room-name | لنشاء روم كتابي
+
 [❖═════ Fox Admin ═══════❖]
  
        **  `)
@@ -114,53 +111,7 @@ reaction1.on("collect", r => {
     })
     })
     }
-    });
-client.on("message", message => {
-var args = message.content.split(' ').slice(1); 
-var msg = message.content.toLowerCase();
-if( !message.guild ) return;
-if( !msg.startsWith( prefix + 'role' ) ) return;
-if(!message.member.hasPermission('MANAGE_ROLES')) return message.channel.send(' **__You Dont Have Permissions__**');
-if( msg.toLowerCase().startsWith( prefix + 'roleremove' ) ){
-if( !args[0] ) return message.reply( '**:x: Mention User**' );
-if( !args[1] ) return message.reply( '**:x: Write Name Of Role To Remove it From The User**' );
-var role = msg.split(' ').slice(2).join(" ").toLowerCase(); 
-var role1 = message.guild.roles.filter( r=>r.name.toLowerCase().indexOf(role)>-1 ).first(); 
-if( !role1 ) return message.reply( '**:x: Mention Role To Remove it From The User**' );if( message.mentions.members.first() ){
-message.mentions.members.first().removeRole( role1 );
-return message.reply('**:white_check_mark: Success Removed Role [ '+role1.name+' ] From [ '+args[0]+' ]**');
-}
-if( args[0].toLowerCase() == "all" ){
-message.guild.members.forEach(m=>m.removeRole( role1 ))
-return-message.reply('**:white_check_mark: Succes Removed Rank [ '+role1.name+' ]  From All**');
-} else if( args[0].toLowerCase() == "bots" ){
-message.guild.members.filter(m=>m.user.bot).forEach(m=>m.removeRole(role1))
-return-message.reply('**:white_check_mark: Succes Removed Rank [ '+role1.name+' ] From All Bots**');
-} else if( args[0].toLowerCase() == "humans" ){
-message.guild.members.filter(m=>!m.user.bot).forEach(m=>m.removeRole(role1))
-return-message.reply('**:white_check_mark: Succes Removed Rank [ '+role1.name+' ] From All Humans**');
-} 
-} else {
-if( !args[0] ) return message.reply( '**:x: Mention User**' );
-if( !args[1] ) return message.reply( '**:x: Write Name Of Role To Give It To User**' );
-var role = msg.split(' ').slice(2).join(" ").toLowerCase(); 
-var role1 = message.guild.roles.filter( r=>r.name.toLowerCase().indexOf(role)>-1 ).first(); 
-if( !role1 ) return message.reply( '**:x: Write Name Of Role To Give It To User**' );if( message.mentions.members.first() ){
-message.mentions.members.first().addRole( role1 );
-return message.reply('**:white_check_mark:Success Gived Rank [ '+role1.name+' ] To [ '+args[0]+' ]**');
-}
-if( args[0].toLowerCase() == "all" ){
-message.guild.members.forEach(m=>m.addRole( role1 ))
-return-message.reply('**:white_check_mark: Success Gived All Rank [ '+role1.name+' ]**');
-} else if( args[0].toLowerCase() == "bots" ){
-message.guild.members.filter(m=>m.user.bot).forEach(m=>m.addRole(role1))
-return-message.reply('**:white_check_mark: Success Gived All Bots Rank [ '+role1.name+' ] **');
-} else if( args[0].toLowerCase() == "humans" ){
-message.guild.members.filter(m=>!m.user.bot).forEach(m=>m.addRole(role1))
-return-message.reply('**:white_check_mark: Success Gived All Humans Rank [ '+role1.name+' ]**');
-} 
-} 
-});
+    });
 
 client.on('message', async message =>{
   if (message.author.boss) return;
@@ -176,18 +127,18 @@ if(!message.guild.member(message.author).hasPermission("MANAGE_MESSAGES")) retur
 if(!message.guild.member(client.user).hasPermission("MANAGE_MESSAGES")) return message.reply("The Bot Haven't Perms `MANAGE_MESSAGES`").then(msg => msg.delete(5000));;
 let user = message.mentions.users.first();
 let muteRole = message.guild.roles.find("name", "Muted");
-if (!muteRole) return message.reply("**عليك انت تصنع رتبة باسم `Muted`**").then(msg => {msg.delete(5000)});
-if (message.mentions.users.size < 1) return message.reply('**منشن شخص مراد**').then(msg => {msg.delete(5000)});
+if (!muteRole) return message.reply("**You Should Create A Rank Name `Muted`**").then(msg => {msg.delete(5000)});
+if (message.mentions.users.size < 1) return message.reply('**You Have To Mention SomeOne**').then(msg => {msg.delete(5000)});
 let reason = message.content.split(" ").slice(2).join(" ");
 message.guild.member(user).addRole(muteRole);
 const muteembed = new Discord.RichEmbed()
 .setColor("RANDOM")
 .setAuthor(`Muted!`, user.displayAvatarURL)
 .setThumbnail(user.displayAvatarURL)
-.addField("**:busts_in_silhouette:  الاسم**",  '**[ ' + `${user.tag}` + ' ]**',true)
-.addField("**:بواسطة**", '**[ ' + `${message.author.tag}` + ' ]**',true)
-.addField("**:book:  السبب**", '**[ ' + `${reason}` + ' ]**',true)
-.addField("اسم", user, true)
+.addField("**:busts_in_silhouette:  User**",  '**[ ' + `${user.tag}` + ' ]**',true)
+.addField("**:hammer:  By**", '**[ ' + `${message.author.tag}` + ' ]**',true)
+.addField("**:book:  Reason**", '**[ ' + `${reason}` + ' ]**',true)
+.addField("User", user, true)
 message.channel.send({embed : muteembed});
 var muteembeddm = new Discord.RichEmbed()
 .setAuthor(`Muted!`, user.displayAvatarURL)
