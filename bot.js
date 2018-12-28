@@ -434,4 +434,6 @@ if (message.content.startsWith(prefix + "cv")) {
 }
 });
 
-client.login('NTI3OTI0MTg0Nzc3NjIxNTE2.DwazTA.VSkx08uFt2EZ_k6-993C4ka3dbM');
+
+
+client.login(process.env.BOT_TOKEN);
